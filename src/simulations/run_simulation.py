@@ -1,4 +1,12 @@
-from src.models.hk_model import HKModel
+from src.models.od_model import generate_network
+from src.plotting.network_plot import draw_network
 
-model = HKModel(10)
-model.run()
+G, A = generate_network(
+    N=10,
+    p=0.5,
+    seed=42
+)
+
+draw_network(G)
+
+print(A)
