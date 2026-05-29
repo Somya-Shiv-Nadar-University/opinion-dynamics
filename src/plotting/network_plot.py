@@ -1,10 +1,9 @@
-import networkx as nx 
-import matplotlib.pyplot as plt 
+import networkx as nx
+import matplotlib.pyplot as plt
 
-def draw_network(G):
-    """
-    Draw network graph.
-    """
+def draw_network(G, save_path=None):
+
+    plt.figure(figsize=(6,6))
 
     pos = nx.circular_layout(G)
 
@@ -32,4 +31,17 @@ def draw_network(G):
     )
 
     plt.axis("off")
-    plt.show()
+
+    if save_path is not None:
+
+        plt.savefig(
+            save_path,
+            dpi=300,
+            bbox_inches="tight"
+        )
+
+        plt.close()
+
+    else:
+
+        plt.show()
