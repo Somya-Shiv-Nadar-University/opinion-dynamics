@@ -7,47 +7,26 @@ from src.plotting.network_plot import *
 
 N = 10
 L = 10
-M = 5
+M = 2
 T = 10
-Time = 10
+Time = 200
 
 # ==================================================
 # Generate model ingredients
 # ==================================================
 
-c1, c2 = generate_c1_c2(N, M)
-
-G, A = generate_network(
-    N=N,
-    p=0.5,
-    seed=42
-)
-np.save(
-    "data/c1_N10_M5.npy",
-    c1
-)
-
-np.save(
-    "data/c2_N10_M5.npy",
-    c2
-)
-
+c1 = np.load("data/c1_N10_M5.npy")
+c2 = np.load("data/c2_N10_M5.npy")
 memory_sets = generate_memory_sets(
     N=N,
     L=L,
     M=M
 )
-# save the weighted adjacency matrix 
-np.save(
-    "data/A_N10_M5.npy",
-    A
-)
 
 # ==================================================
 # Draw network
 # ==================================================
-draw_network(G, save_path="figures/network_N10_M5.png")
-
+A = np.load("data/A_N10_M5.npy")
 # ==================================================
 # Simulate empirical sums for all agents
 # ==================================================
@@ -60,7 +39,7 @@ for horizon in range(3, Time + 3):
 
     monte_carlo_vals = []
 
-    for sim in range(50):
+    for sim in range(5000):
 
         X_history, Z_history = simulate_trajectory(
             N=N,
@@ -86,7 +65,7 @@ for horizon in range(3, Time + 3):
 )
 #save the empirical sum data
 np.save(
-    "data/all_means_N10_M5.npy",all_means
+    "data/all_means_N10_M2.npy",all_means
 )
 
 # ==================================================
@@ -117,7 +96,7 @@ plt.xlabel("Time")
 plt.ylabel("Average empirical sum")
 
 plt.savefig(
-    "figures/all_means_N10_M5.png",
+    "figures/all_means_N10_M2.png",
     dpi=300,
     bbox_inches="tight"
 )
