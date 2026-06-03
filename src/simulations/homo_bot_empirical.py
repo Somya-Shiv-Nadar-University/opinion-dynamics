@@ -7,26 +7,25 @@ from src.plotting.network_plot import *
 
 N = 10
 L = 10
-M = 3
+M = 5
 T = 10
-Time = 200
+Time = 20
 
 # ==================================================
 # Generate model ingredients
 # ==================================================
 
-c1 = np.load("data/c1_N10_M5.npy")
-c2 = np.load("data/c2_N10_M5.npy")
+c1 = 0.05 * np.ones(N)
+c2 = 0.1 * np.ones(N)
+
+A = np.load("data/A_N10_M5.npy")
 memory_sets = generate_memory_sets(
     N=N,
     L=L,
     M=M
 )
 
-# ==================================================
-# Draw network
-# ==================================================
-A = np.load("data/A_N10_M5.npy")
+
 # ==================================================
 # Simulate empirical sums for all agents
 # ==================================================
@@ -39,9 +38,9 @@ for horizon in range(3, Time + 3):
 
     monte_carlo_vals = []
 
-    for sim in range(5000):
+    for sim in range(100):
 
-        X_history, Z_history = simulate_trajectory(
+        X_history, Z_history = simulate_trajectory_bot(
             N=N,
             horizon=horizon,
             T=T,
@@ -50,6 +49,8 @@ for horizon in range(3, Time + 3):
             c1=c1,
             c2=c2,
             memory_sets=memory_sets,
+            beta =0.20,
+            eta = 0.8,
             rng=rng,
         )
 
@@ -65,7 +66,7 @@ for horizon in range(3, Time + 3):
 )
 #save the empirical sum data
 np.save(
-    "data/all_means_N10_M3.npy",all_means
+    "data/all_means_N10_M5_homo_bot.npy",all_means
 )
 
 # ==================================================
@@ -85,6 +86,14 @@ for node in range(N):
         label=f"Agent {node+1}"
     )
 
+plt.axhline(
+    y=0.1,
+    color="black",
+    linestyle="--",
+    linewidth=2,
+    label=r"$p^{(*)}=0.1$"
+)
+
 plt.legend(
     bbox_to_anchor=(1.02, 1),
     loc="upper left",
@@ -93,12 +102,16 @@ plt.legend(
 plt.tight_layout()
 
 plt.xlabel("Time")
-plt.ylabel("Average empirical sum")
+plt.ylabel("Average ergodic sum")
+plt.title(
+    rf"Average ergodic sum: $\beta = 0.2,\ \eta_B = 0.8$"
+)
 
 plt.savefig(
-    "figures/all_means_N10_M3.png",
+    "figures/all_means_N10_M5_homo_bot.png",
     dpi=300,
     bbox_inches="tight"
 )
+
 
 plt.show()
