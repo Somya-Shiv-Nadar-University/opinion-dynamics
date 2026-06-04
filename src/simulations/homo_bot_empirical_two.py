@@ -18,7 +18,7 @@ Time = 200
 c1 = 0.05 * np.ones(N)
 c2 = 0.1 * np.ones(N)
 
-A = np.load("data/A_N10_M5.npy")
+A = np.load("data/A_N10_M5_homo.npy")
 memory_sets = generate_memory_sets(
     N=N,
     L=L,
@@ -50,7 +50,7 @@ for horizon in range(3, Time + 3):
             c2=c2,
             memory_sets=memory_sets,
             beta =0.20,
-            eta = 0.8,
+            eta = 0.05,
             rng=rng,
         )
 
@@ -66,7 +66,7 @@ for horizon in range(3, Time + 3):
 )
 #save the empirical sum data
 np.save(
-    "data/all_means_N10_M5_homo_bot.npy",all_means
+    "data/all_means_N10_M5_homo_bot_two.npy",all_means
 )
 
 # ==================================================
@@ -104,11 +104,11 @@ plt.tight_layout()
 plt.xlabel("Time")
 plt.ylabel("Average ergodic sum")
 plt.title(
-    rf"Average ergodic sum: $\beta = 0.2,\ \eta_B = 0.8$"
+    rf"Average ergodic sum: $\beta = 0.2,\ \eta_B = 0.05$"
 )
 
 plt.savefig(
-    "figures/all_means_N10_M5_homo_bot.png",
+    "figures/all_means_N10_M5_homo_bot_two.png",
     dpi=300,
     bbox_inches="tight"
 )
