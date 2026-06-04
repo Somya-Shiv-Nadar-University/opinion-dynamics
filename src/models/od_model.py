@@ -269,7 +269,7 @@ def simulate_trajectory_bot(
     c2,
     memory_sets,
     beta=0.20,
-    eta=0.8,
+    eta=0.05,
     rng=None,
 ):
     """
