@@ -25,7 +25,7 @@ plt.xlabel("Time")
 plt.ylabel("Average empirical sum")
 
 plt.title(
-    r"Non-homogeneous model with bot: $\beta=0.2,\ \eta_B=0.8$"
+    r"Non-homogeneous model with bot: $\beta=0.2,\ \eta_B=0.5$"
 )
 
 plt.legend(
