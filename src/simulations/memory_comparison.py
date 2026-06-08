@@ -1,6 +1,12 @@
+# In this code we compare the average ergodic sum plots for different values of M (memory)
+
+# ==================================================
+# Import Packages
+# ==================================================
 import numpy as np
 import matplotlib.pyplot as plt 
 
+# import average ergodic sum data for M=2,3,5
 all_means_M2 = np.load("data/all_means_N10_M2.npy")
 all_means_M3 = np.load("data/all_means_N10_M3.npy")
 all_means_M5 = np.load("data/all_means_N10_M5.npy")
@@ -40,7 +46,7 @@ for agent in range(3):
     )
 
 plt.xlabel("Time")
-plt.ylabel("Average empirical sum")
+plt.ylabel("Average ergodic sum")
 
 plt.legend(
     bbox_to_anchor=(1.02, 1),

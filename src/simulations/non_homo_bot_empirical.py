@@ -1,3 +1,6 @@
+# We plot average ergodic sum versus for a homogeneous network equipped with a bot
+# bot weight is beta (for all nodes) and bot strength is eta
+
 from src.models.od_model import *
 from src.plotting.network_plot import *
 
@@ -15,6 +18,8 @@ Time = 200
 # Generate model ingredients
 # ==================================================
 
+# for a non-homogeneous model, c1 and c2 are vary across nodes.
+
 c1 = np.load("data/c1_N10_M5.npy")
 c2 = np.load("data/c2_N10_M5.npy")
 
@@ -29,6 +34,8 @@ memory_sets = generate_memory_sets(
 # ==================================================
 # Simulate empirical sums for all agents
 # ==================================================
+
+# WARNING: generating all_means for a 10-node network for Time = 200 and 5000 runs takes about 7 hours
 
 all_means = np.zeros((Time,N))
 
