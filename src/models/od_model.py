@@ -128,7 +128,7 @@ def generate_memory_sets(N, L, M):
     return memory_sets
 
 
-
+#simulate average ergodic sum versus time plot for agents in a newtork without bots
 def simulate_trajectory(
     N,
     horizon,
@@ -258,7 +258,8 @@ def simulate_trajectory(
         Z_history.append(Z_t.copy())
 
     return X_history, Z_history
-
+#simulate average ergodic sum versus time plot for agents in a network with bots
+# the bot affects all the agents uniformly with a bot weight \beta and bot strength \eta 
 def simulate_trajectory_bot(
     N,
     horizon,
@@ -346,6 +347,155 @@ def simulate_trajectory_bot(
 
         activation_prob = (
             (1 - beta) * interaction[:, 0]
+            + beta * eta
+        )
+
+        activation_prob = np.clip(
+            activation_prob,
+            0.0,
+            1.0
+        )
+
+        random_vals = rng.random(N)
+
+        Z_next = (random_vals < activation_prob).astype(float)
+
+        # ----------------------------------------------
+        # Pre-memory dynamics
+        # ----------------------------------------------
+
+        if t < T:
+
+            X_next = X_t + np.outer(c2, Z_next)
+
+        # ----------------------------------------------
+        # Memory dynamics
+        # ----------------------------------------------
+
+        else:
+
+            X_next = np.zeros((N, N))
+
+            for i in range(N):
+
+                for j in range(N):
+
+                    memory_sum = 0.0
+
+                    for ell in range(L):
+
+                        memory_sum += (
+                            memory_sets[ell][i, j]
+                            * Z_history[-(ell + 1)][j]
+                        )
+
+                    X_next[i, j] = (
+                        c1[i]
+                        + c2[i] * memory_sum
+                    )
+
+        # ----------------------------------------------
+        # Update state
+        # ----------------------------------------------
+
+        X_t = X_next
+        Z_t = Z_next
+
+        X_history.append(X_t.copy())
+        Z_history.append(Z_t.copy())
+
+    return X_history, Z_history
+
+
+#simulate average ergodic sum versus time plot for agents in a network with bots
+# the bot only affects first agent with a bot weight \beta and bot strength \eta
+def simulate_trajectory_bot_one(
+    N,
+    horizon,
+    T,
+    L,
+    A,
+    c1,
+    c2,
+    memory_sets,
+    beta=0.20,
+    eta=0.5,
+    rng=None,
+):
+    """
+    Simulate one trajectory of the opinion dynamics model.
+
+    Parameters
+    ----------
+    N : int
+        Number of nodes.
+
+    horizon : int
+        Final simulation time.
+
+    T : int
+        Time at which memory activates.
+
+    L : int
+        Memory depth.
+
+    A : ndarray
+        Row-stochastic interaction matrix.
+
+    c1 : ndarray
+        Drift vector.
+
+    c2 : ndarray
+        Scaling vector.
+
+    memory_sets : list
+        List of memory indicator matrices.
+
+    beta : bot weight
+    eta  : bot strength
+
+    rng : numpy random generator
+        Random number generator.
+
+    Returns
+    -------
+    X_history : list
+        bias matrices over time.
+
+    Z_history : list
+        expressed opinion vectors over time.
+    """
+
+    if rng is None:
+        rng = np.random.default_rng()
+
+    # ==================================================
+    # Initial state
+    # ==================================================
+
+    X_t = np.tile(c1.reshape(N, 1), (1, N))
+
+    Z_t = np.zeros(N)
+
+    X_history = [X_t.copy()]
+    Z_history = [Z_t.copy()]
+
+    # ==================================================
+    # Time evolution
+    # ==================================================
+
+    for t in range(1, horizon):
+
+        # ----------------------------------------------
+        # Generate activation vector
+        # ----------------------------------------------
+
+        interaction = A @ X_t
+
+        activation_prob = interaction[:, 0].copy()
+
+        activation_prob[0] = (
+            (1 - beta) * activation_prob[0]
             + beta * eta
         )
 
