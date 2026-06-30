@@ -47,13 +47,14 @@ for agent in range(3):
 
 plt.xlabel("Time")
 plt.ylabel("Average ergodic sum")
-
+plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
 plt.legend(
     bbox_to_anchor=(1.02, 1),
     loc="upper left"
 )
 
 plt.tight_layout()
+
 plt.savefig(
     "figures/memory_comparison.png",
     dpi=300,

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 Time = 200
 N=10
-all_means = np.load("data/all_means_N10_M5_homo_bot.npy")
+all_means = np.load("data/all_means_N10_M5_homo_hub_spoke_bot_.npy")
 
 time = np.arange(3, Time + 3)
 
@@ -36,11 +36,11 @@ plt.ylabel("Average ergodic sum")
 plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
 
 plt.title(
-    rf"Average ergodic sum: $\beta = 0.2,\ \eta_B = 0.8$"
+    rf"Average ergodic sum: $\beta = 0.2,\ \eta_B = 0.05$"
 )
 
 plt.savefig(
-    "figures/all_means_N10_M5_homo_bot.png",
+    "figures/all_means_N10_M5_homo_hub_spoke_bot.png",
     dpi=300,
     bbox_inches="tight"
 )
