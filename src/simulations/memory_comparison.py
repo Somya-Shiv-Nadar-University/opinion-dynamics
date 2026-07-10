@@ -49,8 +49,11 @@ plt.xlabel("Time")
 plt.ylabel("Average ergodic sum")
 plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
 plt.legend(
-    bbox_to_anchor=(1.02, 1),
-    loc="upper left"
+    loc="lower center",
+    bbox_to_anchor=(0.5, 1.02),
+    ncol=3,
+    fontsize=8,
+    frameon=True
 )
 
 plt.tight_layout()
