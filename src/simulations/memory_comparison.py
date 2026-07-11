@@ -45,14 +45,16 @@ for agent in range(3):
         label=f"Agent {agent+1}, M=5"
     )
 
-plt.xlabel("Time")
-plt.ylabel("Average ergodic sum")
+plt.xlabel("Time",fontsize=15)
+plt.ylabel("Average ergodic sum",fontsize=15)
+plt.xticks(fontsize=15)
+plt.yticks(fontsize=15)
 plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.7)
 plt.legend(
     loc="lower center",
     bbox_to_anchor=(0.5, 1.02),
     ncol=3,
-    fontsize=8,
+    fontsize=15,
     frameon=True
 )
 
